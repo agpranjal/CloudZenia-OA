@@ -29,3 +29,24 @@ module "rds" {
   rds_security_group_id = module.security_groups.rds_security_group_id
   private_subnet_ids = module.vpc.private_subnet_ids
 }
+
+# Create ACM
+module "acm" {
+  source = "./modules/acm"
+  domain_name = var.domain_name
+  validation_method = "DNS"
+  validate_certificate = true
+  use_route53_validation = true
+  route53_zone_id = var.route53_zone_id
+}
+
+# Create ALB
+module "alb" {
+  source = "./modules/alb"
+  
+  alb_security_group_id = module.security_groups.alb_security_group_id
+  public_subnet_ids = module.vpc.public_subnet_ids
+  certificate_arn = module.acm.certificate_arn
+  domain_name = var.domain_name
+  route53_zone_id = var.route53_zone_id
+}
