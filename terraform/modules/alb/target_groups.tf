@@ -24,10 +24,10 @@ resource "aws_lb_target_group" "wordpress" {
   })
 }
 
-# Target Group for Microservice (Port 80)
+# Target Group for Microservice (Port 3000)
 resource "aws_lb_target_group" "microservice" {
   name        = "${var.name_prefix}-microservice-tg"
-  port        = 80
+  port        = 3000
   protocol    = "HTTP"
   vpc_id      = var.vpc_id
   target_type = "ip"

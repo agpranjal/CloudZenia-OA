@@ -4,8 +4,13 @@ output "alb_security_group_id" {
 }
 
 output "ecs_security_group_id" {
-  description = "ID of the ECS/EC2 Security Group"
+  description = "ID of the ECS Security Group"
   value       = aws_security_group.ecs.id
+}
+
+output "ec2_security_group_id" {
+  description = "ID of the EC2 Security Group"
+  value       = aws_security_group.ec2.id
 }
 
 output "rds_security_group_id" {
@@ -18,6 +23,7 @@ output "security_group_ids" {
   value = {
     alb = aws_security_group.alb.id
     ecs = aws_security_group.ecs.id
+    ec2 = aws_security_group.ec2.id
     rds = aws_security_group.rds.id
   }
 }
