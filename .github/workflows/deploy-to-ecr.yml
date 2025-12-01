@@ -5,13 +5,13 @@ on:
     branches:
       - main
       - feat/iac
-    paths:
-      - 'nodejs-microservice/**'
+    # paths:
+    #   - 'nodejs-microservice/**'
   pull_request:
     branches:
       - main
-    paths:
-      - 'nodejs-microservice/**'
+    # paths:
+    #   - 'nodejs-microservice/**'
   workflow_dispatch:
 
 env:
@@ -49,27 +49,15 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
 
-      - name: Extract metadata (tags, labels) for Docker
-        id: meta
-        uses: docker/metadata-action@v5
-        with:
-          images: ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}
-          tags: |
-            type=ref,event=branch
-            type=ref,event=pr
-            type=semver,pattern={{version}}
-            type=semver,pattern={{major}}.{{minor}}
-            type=sha,prefix={{branch}}-
-            type=raw,value=latest,enable={{is_default_branch}}
-
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
           context: ./nodejs-microservice
           file: ./nodejs-microservice/Dockerfile
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+          tags: |
+            ${{ env.ECR_REGISTRY }}:latest
+            ${{ env.ECR_REGISTRY }}:${{ github.sha }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
           platforms: linux/amd64
@@ -78,5 +66,5 @@ jobs:
         if: github.event_name != 'pull_request'
         run: |
           echo "Image pushed to ECR:"
-          echo "${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ steps.meta.outputs.tags }}"
+          echo "${{ env.ECR_REGISTRY }}:${{ github.sha }}"
 
