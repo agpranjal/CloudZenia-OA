@@ -52,6 +52,11 @@ module "alb" {
   route53_zone_id = var.route53_zone_id
 }
 
+# Create ECR Repository for Node.js Microservice
+module "ecr" {
+  source = "./modules/ecr"
+}
+
 # Create ECS
 module "ecs" {
   source = "./modules/ecs"
@@ -70,5 +75,5 @@ module "ecs" {
   wordpress_image     = "public.ecr.aws/docker/library/wordpress:latest"
 
   microservice_target_group_arn = module.alb.microservice_target_group_arn
-  microservice_image = "public.ecr.aws/nginx/nginx:latest"
+  microservice_image = "${module.ecr.repository_url}:latest"
 }
