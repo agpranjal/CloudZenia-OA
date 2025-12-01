@@ -59,3 +59,9 @@ variable "route53_zone_id" {
   default     = null
 }
 
+variable "iam_instance_profile_name" {
+  description = "IAM instance profile name for EC2 instances (for CloudWatch Agent)"
+  type        = string
+  default     = null
+}
+

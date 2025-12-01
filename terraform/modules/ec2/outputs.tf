@@ -38,3 +38,8 @@ output "ec2_instance_2_eip_id" {
   value       = aws_eip.ec2_2.id
 }
 
+output "cloudwatch_log_group_name" {
+  description = "Name of the CloudWatch Log Group for NGINX access logs"
+  value       = aws_cloudwatch_log_group.nginx_access_logs.name
+}
+

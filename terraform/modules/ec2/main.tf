@@ -40,10 +40,18 @@ resource "aws_instance" "ec2_1" {
   subnet_id              = var.public_subnet_ids[0]
   vpc_security_group_ids = [var.security_group_id]
   key_name               = local.key_name
+  iam_instance_profile   = var.iam_instance_profile_name
+
+  user_data = base64encode(templatefile("${path.module}/cloudwatch-agent-config.sh", {
+    instance_name = "${var.name_prefix}-ec2-instance-1"
+    log_group_name = "/aws/ec2/${var.name_prefix}-nginx-access-logs"
+  }))
 
   tags = merge(var.tags, {
     Name = "${var.name_prefix}-ec2-instance-1"
   })
+
+  depends_on = [aws_cloudwatch_log_group.nginx_access_logs]
 }
 
 # EC2 Instance 2 in Public Subnet 2
@@ -53,10 +61,18 @@ resource "aws_instance" "ec2_2" {
   subnet_id              = var.public_subnet_ids[1]
   vpc_security_group_ids = [var.security_group_id]
   key_name               = local.key_name
+  iam_instance_profile   = var.iam_instance_profile_name
+
+  user_data = base64encode(templatefile("${path.module}/cloudwatch-agent-config.sh", {
+    instance_name = "${var.name_prefix}-ec2-instance-2"
+    log_group_name = "/aws/ec2/${var.name_prefix}-nginx-access-logs"
+  }))
 
   tags = merge(var.tags, {
     Name = "${var.name_prefix}-ec2-instance-2"
   })
+
+  depends_on = [aws_cloudwatch_log_group.nginx_access_logs]
 }
 
 # Associate Elastic IP with EC2 Instance 1

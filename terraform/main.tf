@@ -87,4 +87,5 @@ module "ec2" {
   public_key_path = "~/.ssh/id_rsa.pub"
   domain_name = var.domain_name
   route53_zone_id = var.route53_zone_id
+  iam_instance_profile_name = module.iam.ec2_instance_profile_name
 }
