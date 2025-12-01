@@ -53,10 +53,10 @@ resource "aws_iam_role" "ecs_task" {
   })
 }
 
-# Inline policy for ECS Task Role to allow secretsmanager:GetSecretValue
-resource "aws_iam_role_policy" "ecs_task_secrets" {
-  name = "${var.name_prefix}-ecs-task-secrets-policy"
-  role = aws_iam_role.ecs_task.id
+# Inline policy for ECS Task Execution Role to allow secretsmanager:GetSecretValue
+resource "aws_iam_role_policy" "ecs_task_execution_secrets" {
+  name = "${var.name_prefix}-ecs-task-execution-secrets-policy"
+  role = aws_iam_role.ecs_task_execution.id
 
   policy = jsonencode({
     Version = "2012-10-17"

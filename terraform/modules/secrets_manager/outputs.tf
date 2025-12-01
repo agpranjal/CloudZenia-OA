@@ -18,3 +18,13 @@ output "secret_version_id" {
   value       = aws_secretsmanager_secret_version.rds_credentials.version_id
 }
 
+output "db_username" {
+  description = "Database username"
+  value       = jsondecode(aws_secretsmanager_secret_version.rds_credentials.secret_string).username
+}
+
+output "db_password" {
+  description = "Database password"
+  value       = jsondecode(aws_secretsmanager_secret_version.rds_credentials.secret_string).password
+  sensitive   = true
+}

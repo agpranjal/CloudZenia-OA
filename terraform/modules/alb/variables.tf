@@ -14,6 +14,11 @@ variable "alb_security_group_id" {
   type        = string
 }
 
+variable "vpc_id" {
+  description = "VPC ID for the target groups"
+  type        = string
+}
+
 variable "certificate_arn" {
   description = "ARN of the SSL certificate for HTTPS listener"
   type        = string
@@ -47,6 +52,18 @@ variable "route53_zone_id" {
   description = "Route53 hosted zone ID for the domain"
   type        = string
   default     = null
+}
+
+variable "wordpress_health_check_path" {
+  description = "Health check path for WordPress target group"
+  type        = string
+  default     = "/"
+}
+
+variable "microservice_health_check_path" {
+  description = "Health check path for microservice target group"
+  type        = string
+  default     = "/"
 }
 
 variable "tags" {

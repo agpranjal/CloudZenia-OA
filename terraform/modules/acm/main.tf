@@ -25,11 +25,16 @@ resource "aws_route53_record" "cert_validation" {
     }
   }
 
-  zone_id = var.route53_zone_id
-  name    = each.value.name
-  type    = each.value.type
-  ttl     = 60
-  records = [each.value.value]
+  zone_id        = var.route53_zone_id
+  name           = each.value.name
+  type           = each.value.type
+  ttl            = 60
+  records        = [each.value.value]
+  allow_overwrite = true
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 resource "aws_acm_certificate_validation" "cert_validation" {

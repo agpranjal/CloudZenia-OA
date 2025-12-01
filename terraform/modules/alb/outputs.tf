@@ -43,3 +43,23 @@ output "route53_record_name" {
   value       = var.domain_name != null && var.route53_zone_id != null ? aws_route53_record.alb[0].name : null
 }
 
+output "wordpress_target_group_arn" {
+  description = "ARN of the WordPress target group"
+  value       = aws_lb_target_group.wordpress.arn
+}
+
+output "wordpress_target_group_id" {
+  description = "ID of the WordPress target group"
+  value       = aws_lb_target_group.wordpress.id
+}
+
+output "microservice_target_group_arn" {
+  description = "ARN of the microservice target group"
+  value       = aws_lb_target_group.microservice.arn
+}
+
+output "microservice_target_group_id" {
+  description = "ID of the microservice target group"
+  value       = aws_lb_target_group.microservice.id
+}
+
