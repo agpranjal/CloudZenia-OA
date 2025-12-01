@@ -7,11 +7,6 @@ on:
       - feat/iac
     # paths:
     #   - 'nodejs-microservice/**'
-  pull_request:
-    branches:
-      - main
-    # paths:
-    #   - 'nodejs-microservice/**'
   workflow_dispatch:
 
 env:
@@ -54,7 +49,7 @@ jobs:
         with:
           context: ./nodejs-microservice
           file: ./nodejs-microservice/Dockerfile
-          push: ${{ github.event_name != 'pull_request' }}
+          push: true
           tags: |
             ${{ env.ECR_REGISTRY }}:latest
             ${{ env.ECR_REGISTRY }}:${{ github.sha }}
@@ -63,7 +58,6 @@ jobs:
           platforms: linux/amd64
 
       - name: Output image URI
-        if: github.event_name != 'pull_request'
         run: |
           echo "Image pushed to ECR:"
           echo "${{ env.ECR_REGISTRY }}:${{ github.sha }}"
