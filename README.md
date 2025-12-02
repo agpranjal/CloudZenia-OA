@@ -32,12 +32,12 @@ This infrastructure project creates a production-ready AWS environment with:
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                        Route53 DNS                           │
+│                        Route53 DNS                          │
 │  *.agpranjal.site → ALB                                     │
 └──────────────────────┬──────────────────────────────────────┘
                        │
 ┌──────────────────────▼──────────────────────────────────────┐
-│              Application Load Balancer (ALB)                 │
+│              Application Load Balancer (ALB)                │
 │  - HTTPS Listener (Port 443)                                │
 │  - HTTP → HTTPS Redirect (Port 80)                          │
 │  - Host-based routing rules                                 │
@@ -45,10 +45,10 @@ This infrastructure project creates a production-ready AWS environment with:
        │              │              │              │
        │              │              │              │
 ┌──────▼──────┐ ┌─────▼──────┐ ┌───▼──────┐ ┌───▼──────┐
-│ WordPress   │ │Microservice│ │  Nginx    │ │  Docker  │
-│ (ECS Fargate│ │(ECS Fargate│ │  (EC2)    │ │  (EC2)   │
+│ WordPress   │ │Microservice│ │  Nginx   │ │  Docker  │
+│ (ECS Fargate│ │(ECS Fargate│ │  (EC2)   │ │  (EC2)   │
 │  Port 80)   │ │ Port 3000) │ │ Port 80  │ │ Port 8080│
-└──────┬──────┘ └────────────┘ └───────────┘ └──────────┘
+└──────┬──────┘ └────────────┘ └──────────┘ └──────────┘
        │
        │
 ┌──────▼──────────────────────────────────────────────────────┐
@@ -102,7 +102,7 @@ Below are the subdomain endpoints and their respective services:
 | **ec2-docker1.agpranjal.site**   | Points to first EC2 instance, Docker: "Namaste from Container" | Docker container (EC2 Instance 1, port 8080)                                           |
 | **ec2-docker2.agpranjal.site**   | Points to second EC2 instance, Docker: "Namaste from Container" | Docker container (EC2 Instance 2, port 8080)                                           |
 
-All services are configured with SSL, and host-based routing is managed using the Application Load Balancer (ALB), except for direct EC2 subdomains which may use individual public DNS records via Route53.
+All services are configured with SSL, and host-based routing is managed using the Application Load Balancer (ALB), except for direct EC2 subdomains which uses individual public DNS records via Route53.
 
 ---
 
