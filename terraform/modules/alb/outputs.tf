@@ -63,3 +63,23 @@ output "microservice_target_group_id" {
   value       = aws_lb_target_group.microservice.id
 }
 
+output "nginx_target_group_arn" {
+  description = "ARN of the Nginx target group"
+  value       = aws_lb_target_group.nginx.arn
+}
+
+output "nginx_target_group_id" {
+  description = "ID of the Nginx target group"
+  value       = aws_lb_target_group.nginx.id
+}
+
+output "docker_target_group_arn" {
+  description = "ARN of the Docker target group"
+  value       = aws_lb_target_group.docker.arn
+}
+
+output "docker_target_group_id" {
+  description = "ID of the Docker target group"
+  value       = aws_lb_target_group.docker.id
+}
+

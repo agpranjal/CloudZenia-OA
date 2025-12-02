@@ -66,6 +66,12 @@ variable "microservice_health_check_path" {
   default     = "/"
 }
 
+variable "ec2_instance_ids" {
+  description = "List of EC2 instance IDs to attach to target groups"
+  type        = list(string)
+  default     = []
+}
+
 variable "tags" {
   description = "Tags to apply to all resources"
   type        = map(string)

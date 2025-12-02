@@ -41,6 +41,18 @@ module "acm" {
   route53_zone_id = var.route53_zone_id
 }
 
+# Create EC2 Instances
+module "ec2" {
+  source = "./modules/ec2"
+  
+  public_subnet_ids = module.vpc.public_subnet_ids
+  security_group_id = module.security_groups.ec2_security_group_id
+  public_key_path = "~/.ssh/id_rsa.pub"
+  domain_name = var.domain_name
+  route53_zone_id = var.route53_zone_id
+  iam_instance_profile_name = module.iam.ec2_instance_profile_name
+}
+
 # Create ALB
 module "alb" {
   source = "./modules/alb"
@@ -50,6 +62,7 @@ module "alb" {
   certificate_arn = module.acm.certificate_arn
   domain_name = var.domain_name
   route53_zone_id = var.route53_zone_id
+  ec2_instance_ids = [module.ec2.ec2_instance_1_id, module.ec2.ec2_instance_2_id]
 }
 
 # Create ECR Repository for Node.js Microservice
@@ -76,16 +89,4 @@ module "ecs" {
 
   microservice_target_group_arn = module.alb.microservice_target_group_arn
   microservice_image = "${module.ecr.repository_url}:latest"
-}
-
-# Create EC2 Instances
-module "ec2" {
-  source = "./modules/ec2"
-  
-  public_subnet_ids = module.vpc.public_subnet_ids
-  security_group_id = module.security_groups.ec2_security_group_id
-  public_key_path = "~/.ssh/id_rsa.pub"
-  domain_name = var.domain_name
-  route53_zone_id = var.route53_zone_id
-  iam_instance_profile_name = module.iam.ec2_instance_profile_name
 }
