@@ -41,14 +41,14 @@ This infrastructure project creates a production-ready AWS environment with:
 │  - HTTPS Listener (Port 443)                                │
 │  - HTTP → HTTPS Redirect (Port 80)                          │
 │  - Host-based routing rules                                 │
-└──────┬──────────────┬──────────────┬──────────────┬─────────┘
-       │              │              │              │
-       │              │              │              │
-┌──────▼──────┐ ┌─────▼──────┐ ┌───▼──────┐ ┌───▼──────┐
-│ WordPress   │ │Microservice│ │  Nginx   │ │  Docker  │
-│ (ECS Fargate│ │(ECS Fargate│ │  (EC2)   │ │  (EC2)   │
-│  Port 80)   │ │ Port 3000) │ │ Port 80  │ │ Port 8080│
-└──────┬──────┘ └────────────┘ └──────────┘ └──────────┘
+└──────┬──────────────┬──────────────┬───────────────┬──────────────────
+       │              │              │               │
+       │              │              │               │
+┌──────▼──────┐ ┌─────▼──────┐ ┌───────────────┐ ┌──────▼──────┐
+│ WordPress   │ │Microservice│ │  EC2 Instance │ │ EC2 Instance│
+│ (ECS Fargate│ │(ECS Fargate│ │Nginx + Docker │ │Nginx+Docker │
+│  Port 80)   │ │ Port 3000) │ │Port 80/443/8080││Port 80/443/8080│
+└─────────────┘ └────────────┘ └───────────────┘ └─────────────┘
        │
        │
 ┌──────▼──────────────────────────────────────────────────────┐
