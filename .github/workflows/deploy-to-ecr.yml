@@ -14,6 +14,8 @@ env:
   ECR_REPOSITORY: nodejs-microservice
   # Sample ECR URI - Replace with your actual ECR registry URI
   ECR_REGISTRY: 440185825250.dkr.ecr.us-east-1.amazonaws.com/nodejs-microservice
+  ECS_CLUSTER: cloudzenia-oa-cluster
+  ECS_SERVICE: cloudzenia-oa-microservice-service
 
 jobs:
   build-and-push:
@@ -61,4 +63,21 @@ jobs:
         run: |
           echo "Image pushed to ECR:"
           echo "${{ env.ECR_REGISTRY }}:${{ github.sha }}"
+
+      - name: Force ECS service deployment
+        run: |
+          echo "Forcing new deployment for ECS service: ${{ env.ECS_SERVICE }}"
+          aws ecs update-service \
+            --cluster ${{ env.ECS_CLUSTER }} \
+            --service ${{ env.ECS_SERVICE }} \
+            --force-new-deployment \
+            --region ${{ env.AWS_REGION }}
+          
+          echo "Waiting for service to stabilize..."
+          aws ecs wait services-stable \
+            --cluster ${{ env.ECS_CLUSTER }} \
+            --services ${{ env.ECS_SERVICE }} \
+            --region ${{ env.AWS_REGION }}
+          
+          echo "ECS service deployment completed successfully!"
 
