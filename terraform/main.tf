@@ -17,8 +17,8 @@ module "iam" {
 # Create Secrets Manager
 module "secrets_manager" {
   source = "./modules/secrets_manager"
-  db_username = "admin"
-  db_password = "password"
+  db_username = var.db_username
+  db_password = var.db_password
 }
 
 # Create RDS

@@ -124,7 +124,7 @@ Creates security groups for ALB, ECS, EC2, and RDS with appropriate ingress/egre
 Creates IAM roles and policies for ECS task execution, ECS tasks, and EC2 instances (CloudWatch Agent).
 
 ### 4. Secrets Manager Module (`modules/secrets_manager/`)
-Manages RDS database credentials securely in AWS Secrets Manager.
+Manages RDS database credentials securely in AWS Secrets Manager. Database username and password are configurable via Terraform variables (`db_username` and `db_password`).
 
 ### 5. RDS Module (`modules/rds/`)
 Creates MySQL RDS instance in private subnets with encrypted storage and automated backups.
@@ -181,7 +181,13 @@ Edit `variables.tf` or create a `terraform.tfvars` file:
 ```hcl
 domain_name      = "agpranjal.site"
 route53_zone_id  = "Z07540001AX4AZZUPCDUQ"
+db_username      = "admin"
+db_password      = "your-secure-password"
 ```
+
+**Note:** The `db_password` variable is marked as sensitive. You can also set it via:
+- Environment variable: `export TF_VAR_db_password="your-password"`
+- Command-line flag: `terraform apply -var="db_password=your-password"`
 
 ### 2. Initialize Terraform
 

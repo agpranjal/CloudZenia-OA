@@ -9,3 +9,16 @@ variable "domain_name" {
   type        = string
   default     = "agpranjal.site"
 }
+
+variable "db_username" {
+  description = "Database username"
+  type        = string
+  default     = "admin"
+}
+
+variable "db_password" {
+  description = "Database password"
+  type        = string
+  default     = "password"
+  sensitive   = true
+}
