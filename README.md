@@ -82,6 +82,11 @@ terraform/
 ├── outputs.tf            # Root outputs
 ├── provider.tf           # Provider configuration
 └── README.md             # This file
+
+nodejs-microservice/       # Custom Node.js microservice for ECS
+├── index.js              # Node.js HTTP server (port 3000)
+├── Dockerfile            # Container image definition
+└── package.json          # Node.js dependencies
 ```
 
 
@@ -134,7 +139,7 @@ Creates two EC2 instances in public subnets with Elastic IPs, CloudWatch logging
 Creates Application Load Balancer with HTTPS listeners, target groups, host-based routing rules, and Route53 DNS records.
 
 ### 9. ECR Module (`modules/ecr/`)
-Creates ECR repository for Node.js microservice with image scanning and lifecycle policies.
+Creates ECR repository for Node.js microservice with image scanning and lifecycle policies. The custom Node.js microservice located in the `nodejs-microservice/` directory is containerized and deployed to this ECR repository via GitHub workflow automation.
 
 ### 10. ECS Module (`modules/ecs/`)
 Creates ECS Fargate cluster with WordPress and Node.js microservice services, including auto-scaling policies and CloudWatch logging.
